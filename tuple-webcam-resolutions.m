@@ -94,7 +94,9 @@ int main(int argc, const char * argv[]) {
 
                 for (AVCaptureDeviceFormat *format in AVCaptureDeviceSortedFormats(device)) {
                     CMVideoDimensions dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription);
-                    fprintf(stdout, "   - %d x %d @ %d fps", dimensions.width, dimensions.height, AVCaptureDeviceFormatMaxFrameRate(format));
+                    CGSize presentation = CMVideoFormatDescriptionGetPresentationDimensions(format.formatDescription, YES, YES);
+
+                    fprintf(stdout, "   - %d x %d ( %d x %d ) @ %d fps", dimensions.width, dimensions.height, (int)presentation.width, (int)presentation.height, AVCaptureDeviceFormatMaxFrameRate(format));
                     fprintf(stdout, [format isEqual:idealFormat] ? " *\n" : "\n");
                 }
             }
